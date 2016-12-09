@@ -352,7 +352,7 @@ func (t *TemplateGenerator) getTemplateFuncMap(properties *api.Properties) map[s
 		"GetKubernetesMasterCustomData": func() string {
 			fmt.Fprintf(os.Stderr, "adminUserName %s\n", properties.LinuxProfile.AdminUsername)
 			fmt.Fprintf(os.Stderr, "wrote %s\n", "Starting...")
-			fmt.Fprintf(os.Stderr, "EP %s\n", properties.ExtensionProfile.Name)
+			fmt.Fprintf(os.Stderr, "EP %s\n", properties.ExtensionsProfile)
 
 			// var str string
 			// for err, extensionProfile := range properties.ExtensionsProfile {

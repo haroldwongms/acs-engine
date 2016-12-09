@@ -51,7 +51,7 @@ type Properties struct {
 	MasterProfile           MasterProfile           `json:"masterProfile"`
 	AgentPoolProfiles       []AgentPoolProfile      `json:"agentPoolProfiles"`
 	LinuxProfile            LinuxProfile            `json:"linuxProfile"`
-	ExtensionProfile        ExtensionProfile        `json:"extensionProfile"`
+	ExtensionsProfile       []ExtensionProfile      `json:"extensionsProfile"`
 	WindowsProfile          WindowsProfile          `json:"windowsProfile"`
 	DiagnosticsProfile      DiagnosticsProfile      `json:"diagnosticsProfile"`
 	JumpboxProfile          JumpboxProfile          `json:"jumpboxProfile"`

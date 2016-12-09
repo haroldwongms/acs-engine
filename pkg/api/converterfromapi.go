@@ -106,7 +106,12 @@ func convertPropertiesToVLabs(api *Properties, vlabsProps *vlabs.Properties) {
 		vlabsProps.AgentPoolProfiles = append(vlabsProps.AgentPoolProfiles, *vlabsProfile)
 	}
 	convertLinuxProfileToVLabs(&api.LinuxProfile, &vlabsProps.LinuxProfile)
-	convertExtensionProfileToVLabs(&api.ExtensionProfile, &vlabsProps.ExtensionProfile)
+	vlabsProps.ExtensionsProfile = []vlabs.ExtensionProfile{}
+	for _, extensionProfile := range api.ExtensionsProfile {
+		vlabsExtensionProfile := &vlabs.ExtensionProfile{}
+		convertExtensionProfileToVLabs(&extensionProfile, vlabsExtensionProfile)
+		vlabsProps.ExtensionsProfile = append(vlabsProps.ExtensionsProfile, *vlabsExtensionProfile)
+	}
 	convertWindowsProfileToVLabs(&api.WindowsProfile, &vlabsProps.WindowsProfile)
 	convertServicePrincipalProfileToVLabs(&api.ServicePrincipalProfile, &vlabsProps.ServicePrincipalProfile)
 	convertCertificateProfileToVLabs(&api.CertificateProfile, &vlabsProps.CertificateProfile)

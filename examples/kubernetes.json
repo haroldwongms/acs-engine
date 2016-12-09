@@ -30,9 +30,6 @@
     "extensionsProfile": [
       { "name": "extensionDeis" }
     ],
-    "extensionProfile": 
-      { "name": "extensionDeis" }
-    ,
     "servicePrincipalProfile": {
       "servicePrincipalClientID": "ef71422f-cee8-407d-8ce8-703e4a252ef8",
       "servicePrincipalClientSecret": "P@ssword12345$"
