@@ -6,9 +6,9 @@
     },
     "masterProfile": {
       "count": 3,
-      "dnsPrefix": "",
+      "dnsPrefix": "bagbymasterswarm",
       "vmSize": "Standard_D2_v2",
-      "vnetSubnetId": "/subscriptions/b52fce95-de5f-4b37-afca-db203a5d0b6a/resourceGroups/anhoweExampleRG/providers/Microsoft.Network/virtualNetworks/ExampleCustomVNET/subnets/ExampleMasterSubnet",
+      "vnetSubnetId": "/subscriptions/3e934cdc-985b-42a7-8b92-a63cb6d6a240/resourceGroups/bagbyswarmrg/providers/Microsoft.Network/virtualNetworks/bagbyswarmvnet/subnets/swarmsubnet",
       "firstConsecutiveStaticIP": "10.100.0.5" 
     },
     "agentPoolProfiles": [
@@ -16,14 +16,14 @@
         "name": "agentprivate",
         "count": 3,
         "vmSize": "Standard_D2_v2",
-        "vnetSubnetId": "/subscriptions/b52fce95-de5f-4b37-afca-db203a5d0b6a/resourceGroups/anhoweExampleRG/providers/Microsoft.Network/virtualNetworks/ExampleCustomVNET/subnets/ExampleAgentSubnet"
+		"vnetSubnetId": "/subscriptions/3e934cdc-985b-42a7-8b92-a63cb6d6a240/resourceGroups/bagbyswarmrg/providers/Microsoft.Network/virtualNetworks/bagbyswarmvnet/subnets/swarmsubnet"
       },
       {
         "name": "agentpublic",
         "count": 3,
         "vmSize": "Standard_D2_v2",
-        "dnsPrefix": "",
-        "vnetSubnetId": "/subscriptions/b52fce95-de5f-4b37-afca-db203a5d0b6a/resourceGroups/anhoweExampleRG/providers/Microsoft.Network/virtualNetworks/ExampleCustomVNET/subnets/ExampleAgentSubnet",
+        "dnsPrefix": "bagbyagentswarm",
+		"vnetSubnetId": "/subscriptions/3e934cdc-985b-42a7-8b92-a63cb6d6a240/resourceGroups/bagbyswarmrg/providers/Microsoft.Network/virtualNetworks/bagbyswarmvnet/subnets/swarmsubnet",
         "ports": [
           80,
           443,
@@ -32,11 +32,11 @@
       }
     ],
     "linuxProfile": {
-      "adminUsername": "azureuser",
+      "adminUsername": "vmadmin",
       "ssh": {
         "publicKeys": [
           {
-            "keyData": ""
+            "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAgdTIpiRHdulyoKT+GCMXS/H1KI0ttqMtK+qnrntw4LlJVXzHoRbXRkqS//jhpDSq9X+g7fXaCcDmsiLX5U3C0OE8Ze7+YvdyoRCn2DKrUvo8LiaijMoGwTapYz2WIrC1VnecHL+HyPopSfUlepk/cQEcSuy+mAMdZMkIf76apn00UEwhgD9M2c/Tt9f2TUmWm/robms7QpoH9Wol0YN859erEkjn/2s8k57IyaahyKYyOPIWy1C+SjPvExFsxDa+on8sumesbwHJK8LWEIuKuySG0Wp+aV11VEOFVXLGEQcrMTWs3m0JT4lrVniI6Rv3RjOgZAy56Ku+DRKwBPQUSQ== robbag@microsoft.com"
           }
         ]
       }

@@ -1,0 +1,7 @@
+
+- path: "/opt/azure/containers/extension-deis.sh"
+  permissions: "0744"
+  encoding: gzip
+  owner: "root"
+  content: !!binary |
+    EXTENSION_DEIS_MASTER_PROVISION_B64_GZIP_STR

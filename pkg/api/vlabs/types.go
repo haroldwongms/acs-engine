@@ -38,6 +38,7 @@ type Properties struct {
 	MasterProfile           MasterProfile           `json:"masterProfile"`
 	AgentPoolProfiles       []AgentPoolProfile      `json:"agentPoolProfiles"`
 	LinuxProfile            LinuxProfile            `json:"linuxProfile"`
+	ExtensionsProfile       []ExtensionProfile      `json:"extensionsProfile"`
 	WindowsProfile          WindowsProfile          `json:"windowsProfile,omitempty"`
 	ServicePrincipalProfile ServicePrincipalProfile `json:"servicePrincipalProfile"`
 	CertificateProfile      CertificateProfile      `json:"certificateProfile"`
@@ -123,6 +124,11 @@ type MasterProfile struct {
 	// The format will be FQDN:2376
 	// Not used during PUT, returned as part of GET
 	FQDN string `json:"fqdn,omitempty"`
+}
+
+// ExtensionProfile represents an extension definition
+type ExtensionProfile struct {
+	Name string `json:"name"`
 }
 
 // AgentPoolProfile represents an agent pool definition

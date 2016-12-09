@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"hash/fnv"
 	"math/rand"
+	"os"
 	"regexp"
 	"strings"
 	"text/template"
@@ -20,6 +21,8 @@ import (
 const (
 	kubernetesMasterCustomDataYaml = "kubernetesmastercustomdata.yml"
 	kubernetesMasterCustomScript   = "kubernetesmastercustomscript.sh"
+	extensionDeisYaml              = "extension-deis.yml"
+	extensionDeisScript            = "extension-deis.sh"
 	kubernetesAgentCustomDataYaml  = "kubernetesagentcustomdata.yml"
 	kubeConfigJSON                 = "kubeconfig.json"
 )
@@ -262,6 +265,8 @@ func addValue(m map[string]interface{}, k string, v interface{}) {
 	}
 }
 
+type provider func() string
+
 // getTemplateFuncMap returns all functions used in template generation
 func (t *TemplateGenerator) getTemplateFuncMap(properties *api.Properties) map[string]interface{} {
 	return template.FuncMap{
@@ -343,7 +348,24 @@ func (t *TemplateGenerator) getTemplateFuncMap(properties *api.Properties) map[s
 		"GetKubernetesMasterCustomScript": func() string {
 			return getBase64CustomScript(kubernetesMasterCustomScript)
 		},
+		//"GetKubernetesMasterCustomData": func(parms api.ExtensionsProfile) string {
 		"GetKubernetesMasterCustomData": func() string {
+			fmt.Fprintf(os.Stderr, "adminUserName %s\n", properties.LinuxProfile.AdminUsername)
+			fmt.Fprintf(os.Stderr, "wrote %s\n", "Starting...")
+			fmt.Fprintf(os.Stderr, "EP %s\n", properties.ExtensionProfile.Name)
+
+			// var str string
+			// for err, extensionProfile := range properties.ExtensionsProfile {
+			// 	_ = err
+			// 	str += extensionProfile.Name
+			// 	fmt.Fprintf(os.Stderr, "wrote %s\n", extensionProfile.Name)
+			// }
+			// fmt.Fprintf(os.Stderr, "wrote %s\n", str)
+			// return str
+
+			// fmt.Fprintf(os.Stderr, "wrote %s\n", "before parm")
+			// fmt.Fprintf(os.Stderr, "wrote %s\n", parms.DNSPrefix)
+			// fmt.Fprintf(os.Stderr, "wrote %s\n", "after parm")
 			str, e := getSingleLineForTemplate(kubernetesMasterCustomDataYaml)
 			if e != nil {
 				return ""
@@ -356,6 +378,44 @@ func (t *TemplateGenerator) getTemplateFuncMap(properties *api.Properties) map[s
 				addonTextContents := getBase64CustomScript(filename)
 				str = strings.Replace(str, placeholder, addonTextContents, -1)
 			}
+			//fmt.Fprintf(os.Stderr, "wrote %s\n", "Bagby")
+			tempStr, e := getSingleLineForTemplate(extensionDeisYaml)
+			if e != nil {
+				return ""
+			}
+
+			str += tempStr
+			extensionDeisProvisionB64GzipStr := getBase64CustomScript(extensionDeisScript)
+			str = strings.Replace(str, "EXTENSION_DEIS_MASTER_PROVISION_B64_GZIP_STR", extensionDeisProvisionB64GzipStr, -1)
+
+			// return the custom data
+			return fmt.Sprintf("\"customData\": \"[base64(concat('%s'))]\",", str)
+		},
+		"TestOuter": func(fns []provider) string {
+			var str string
+			for err, fn := range fns {
+				_ = err
+
+				str += fn()
+			}
+
+			return str
+		},
+		"GetExtensionDeis": func() string {
+			str, e := getSingleLineForTemplate(extensionDeisYaml)
+			if e != nil {
+				return ""
+			}
+			// add the extension script
+			extensionDeisProvisionB64GzipStr := getBase64CustomScript(extensionDeisScript)
+			str = strings.Replace(str, "EXTENSION_DEIS_MASTER_PROVISION_B64_GZIP_STR", extensionDeisProvisionB64GzipStr, -1)
+
+			//addonTextContents := getBase64CustomScript(filename)
+			//str = strings.Replace(str, )
+			// for placeholder, filename := range kubernetesAddonYamls {
+			// 	addonTextContents := getBase64CustomScript(filename)
+			// 	str = strings.Replace(str, placeholder, addonTextContents, -1)
+			// }
 
 			// return the custom data
 			return fmt.Sprintf("\"customData\": \"[base64(concat('%s'))]\",", str)
